@@ -1,0 +1,77 @@
+<?php
+
+// posts
+require 'db_connection.php';
+
+function get_all_posts() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM przepisy ORDER BY id DESC");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_active_posts() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM przepisy WHERE active = 1 ORDER BY id DESC");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_post_title($post) {
+    return htmlspecialchars($post['tytul']);
+}
+
+function get_post_active($post) {
+    return htmlspecialchars($post['active']);
+}
+
+function get_post_category($post) {
+    return htmlspecialchars($post['kategoria']);
+}
+
+function get_post_content($post) {
+    return nl2br(htmlspecialchars($post['tresc']));
+}
+
+function get_post_image($post) {
+    if (empty($post['obrazek'])) {
+        return null;
+    }
+    return '../assets/img/blog/' . htmlspecialchars($post['obrazek']);
+}
+
+ 
+// Pobranie wszystkich komentarzy
+function get_all_comments() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM komentarze ORDER BY data DESC");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Pobranie komentarzy tylko dla konkretnego posta
+function get_comments_by_post($post_id) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM komentarze WHERE przepis_id = :id ORDER BY data ASC");
+    $stmt->execute([':id' => $post_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Pobranie komentarzy tylko dla konkretnego posta
+function get_active_comments_by_post($post_id) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM komentarze WHERE przepis_id = :id AND active = 1 ORDER BY data ASC");
+    $stmt->execute([':id' => $post_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Funkcje pomocnicze dla pojedynczego komentarza
+
+function get_comment_author($comment) {
+    return htmlspecialchars($comment['autor']);
+}
+
+function get_comment_content($comment) {
+    return nl2br(htmlspecialchars($comment['content']));
+}
+
+function get_comment_date($comment) {
+    return htmlspecialchars($comment['data']);
+}
