@@ -8,32 +8,33 @@ function get_all_posts() {
     $stmt = $pdo->query("SELECT * FROM przepisy ORDER BY id DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function get_active_posts($query = "", $category = "", $topic = "") {
+function get_active_posts($zapytanie = "", $kategoria = "", $tytul = "") {
     global $pdo;
 
     $sql = "SELECT * FROM przepisy WHERE active = 1";
     $params = [];
 
-    if ($query !== "") {
-        $sql .= " AND (title LIKE :q OR content LIKE :q)";
-        $params['q'] = "%" . $query . "%";
+    if ($zapytanie !== "") {
+        $sql .= " AND ( tresc LIKE :zapytanie)";
+        $params['zapytanie'] = "%" . $zapytanie . "%";
     }
 
-    if ($category !== "") {
-        $sql .= " AND category LIKE :category";
-        $params['category'] = "%" . $category . "%";
+    if ($kategoria !== "") {
+        $sql .= " AND kategoria LIKE :kategoria";
+        $params['kategoria'] = "%" . $kategoria . "%";
     }
 
-    if ($topic !== "") {
-        $sql .= " AND topic LIKE :tytul";
-        $params['tytul'] = "%" . $topic . "%";
+    if ($tytul !== "") {
+        $sql .= " AND tytul LIKE :tytul";
+        $params['tytul'] = "%" . $tytul . "%";
     }
 
     $sql .= " ORDER BY id DESC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
-
+    var_dump($sql);
+    var_dump($params);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 

@@ -1,10 +1,10 @@
 <form method="get" style="display:flex; gap:10px; margin-bottom:20px;">
 
-    <input type="text" name="query" placeholder="Treść / tytuł">
+    <input type="text" name="zapytanie" placeholder="Treść">
 
-    <input type="text" name="category" placeholder="Kategoria">
+    <input type="text" name="kategoria" placeholder="Kategoria">
 
-    <input type="text" name="topic" placeholder="Temat">
+    <input type="text" name="tytul" placeholder="Tytul">
 
     <button type="submit">Szukaj</button>
 </form>
@@ -15,12 +15,12 @@ require 'api/queries.php';
 
 session_start();
 
-$query    = trim($_GET['query'] ?? "");
-$category = trim($_GET['category'] ?? "");
-$topic    = trim($_GET['topic'] ?? "");
+$zapytanie   = trim($_GET['zapytanie'] ?? "");
+$kategoria = trim($_GET['kategoria'] ?? "");
+$tytul    = trim($_GET['tytul'] ?? "");
 
 $admin = 0;
-$posts = get_active_posts($query, $category, $topic); // dla zwykłych użytkowników
+$posts = get_active_posts($zapytanie, $kategoria, $tytul); // dla zwykłych użytkowników
 
 if (isset($_SESSION['moderator_login'])) {
     $posts = get_all_posts(); // moderator widzi wszystkie posty
