@@ -6,10 +6,10 @@
 
     <input type="text" name="tytul" placeholder="Tytul">
 
+    <input type="text" name="autor" placeholder="Autor">
+
     <button type="submit">Szukaj</button>
 </form>
-<form method="get" style="margin-bottom:20px;">
-
 
 <?php
 require 'api/functions.php';
@@ -20,12 +20,13 @@ session_start();
 $zapytanie = trim($_GET['zapytanie'] ?? "");
 $kategoria = trim($_GET['kategoria'] ?? "");
 $tytul     = trim($_GET['tytul'] ?? "");
+$autor     = trim($_GET['autor'] ?? "");
 
 $admin = false;
 if (isset($_SESSION['moderator_login'])) {
     $admin = true;
 }
-$posts = get_posts($admin, $zapytanie, $kategoria, $tytul);
+$posts = get_posts($admin, $zapytanie, $kategoria, $tytul, $autor);
 ?>
 
 <?php foreach ($posts as $p): ?>

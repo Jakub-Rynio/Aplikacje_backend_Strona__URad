@@ -8,7 +8,7 @@ if (!isset($_SESSION['moderator_login'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../posts.php');
+    header('Location: ../blog.php');
     exit;
 }
 

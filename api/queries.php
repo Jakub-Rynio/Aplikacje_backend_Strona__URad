@@ -10,7 +10,7 @@ function get_post_by_id($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = "") {
+function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = "", $autor = "") {
     global $pdo;
 
     $sql = "SELECT * FROM przepisy ";
@@ -33,6 +33,11 @@ function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = ""
     if ($tytul !== "") {
         $sql .= " AND tytul LIKE :tytul";
         $params['tytul'] = "%" . $tytul . "%";
+    }
+
+    if ($autor !== "") {
+        $sql .= " AND dodane_przez LIKE :autor";
+        $params['autor'] = "%" . $autor . "%";
     }
 
     $sql .= " ORDER BY id DESC";
