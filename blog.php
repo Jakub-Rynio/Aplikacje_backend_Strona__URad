@@ -9,33 +9,40 @@
     <button type="submit">Szukaj</button>
 </form>
 <form method="get" style="margin-bottom:20px;">
+
+
 <?php
 require 'api/functions.php';
 require 'api/queries.php';
 
 session_start();
 
-$zapytanie   = trim($_GET['zapytanie'] ?? "");
+$zapytanie = trim($_GET['zapytanie'] ?? "");
 $kategoria = trim($_GET['kategoria'] ?? "");
-$tytul    = trim($_GET['tytul'] ?? "");
+$tytul     = trim($_GET['tytul'] ?? "");
 
-$admin = 0;
-$posts = get_active_posts($zapytanie, $kategoria, $tytul); // dla zwykłych użytkowników
-
+$admin = false;
 if (isset($_SESSION['moderator_login'])) {
-    $posts = get_all_posts(); // moderator widzi wszystkie posty
-    $admin = 1;
+    $admin = true;
 }
+$posts = get_posts($admin, $zapytanie, $kategoria, $tytul);
 ?>
 
 <?php foreach ($posts as $p): ?>
     <div class="post">
 
-        <h2><?= get_post_title($p); ?></h2>
+        <h2>
+            <a href="single.php?id=<?= (int)$p['id'] ?>">
+                <?= get_post_title($p); ?>
+            </a>
+        </h2>
         <p>Kategoria: <?= get_post_category($p); ?></p>
 
         <?php if ($img = get_post_image($p)): ?>
-            <img src="<?= $img ?>" style="max-width:300px;">
+
+            <a href="single.php?id=<?= (int)$p['id'] ?>">
+                <img src="<?= $img ?>" style="max-width:300px;">
+            </a>
         <?php endif; ?>
 
         <p><?= get_post_content($p); ?></p>

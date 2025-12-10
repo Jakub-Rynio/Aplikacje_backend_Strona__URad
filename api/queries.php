@@ -3,16 +3,22 @@
 // posts
 require 'db_connection.php';
 
-function get_all_posts() {
+function get_post_by_id($id) {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM przepisy ORDER BY id DESC");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM przepisy WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-function get_active_posts($zapytanie = "", $kategoria = "", $tytul = "") {
+
+function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = "") {
     global $pdo;
 
-    $sql = "SELECT * FROM przepisy WHERE active = 1";
+    $sql = "SELECT * FROM przepisy ";
     $params = [];
+
+    if ($admin) {
+        $sql .= "WHERE (active = 1 OR active = 0)";
+    }else{$sql .= "WHERE active = 1";}
 
     if ($zapytanie !== "") {
         $sql .= " AND ( tresc LIKE :zapytanie)";
