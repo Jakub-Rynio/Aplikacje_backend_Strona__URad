@@ -44,8 +44,6 @@ function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = ""
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
-    var_dump($sql);
-    var_dump($params);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
