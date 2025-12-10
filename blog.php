@@ -1,16 +1,26 @@
-<form method="get">
-    <input type="text" name="query" placeholder="Szukaj">
-    <button>Szukaj</button>
-</form>
+<form method="get" style="display:flex; gap:10px; margin-bottom:20px;">
 
+    <input type="text" name="query" placeholder="Treść / tytuł">
+
+    <input type="text" name="category" placeholder="Kategoria">
+
+    <input type="text" name="topic" placeholder="Temat">
+
+    <button type="submit">Szukaj</button>
+</form>
+<form method="get" style="margin-bottom:20px;">
 <?php
 require 'api/functions.php';
 require 'api/queries.php';
 
 session_start();
 
+$query    = trim($_GET['query'] ?? "");
+$category = trim($_GET['category'] ?? "");
+$topic    = trim($_GET['topic'] ?? "");
+
 $admin = 0;
-$posts = get_active_posts(); // dla zwykłych użytkowników
+$posts = get_active_posts($query, $category, $topic); // dla zwykłych użytkowników
 
 if (isset($_SESSION['moderator_login'])) {
     $posts = get_all_posts(); // moderator widzi wszystkie posty

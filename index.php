@@ -1,1 +1,2 @@
-<?php header('Location: blog.php');
+<?php
+header("Location: blog.php");

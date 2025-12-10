@@ -8,10 +8,32 @@ function get_all_posts() {
     $stmt = $pdo->query("SELECT * FROM przepisy ORDER BY id DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-function get_active_posts() {
+function get_active_posts($query = "", $category = "", $topic = "") {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM przepisy WHERE active = 1 ORDER BY id DESC");
+
+    $sql = "SELECT * FROM przepisy WHERE active = 1";
+    $params = [];
+
+    if ($query !== "") {
+        $sql .= " AND (title LIKE :q OR content LIKE :q)";
+        $params['q'] = "%" . $query . "%";
+    }
+
+    if ($category !== "") {
+        $sql .= " AND category LIKE :category";
+        $params['category'] = "%" . $category . "%";
+    }
+
+    if ($topic !== "") {
+        $sql .= " AND topic LIKE :tytul";
+        $params['tytul'] = "%" . $topic . "%";
+    }
+
+    $sql .= " ORDER BY id DESC";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
