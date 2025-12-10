@@ -1,0 +1,17 @@
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ef4444; 
+    border-radius: 5px;
+}
+
+::selection {
+    color: white;
+    background: #ef4444;
+}
+
+html {
+    scroll-behavior: smooth;
+}
