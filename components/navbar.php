@@ -18,7 +18,11 @@
                     <a href="#recipes" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Przepisy</a>
                 </li>
                 <li class="m-auto">
-                    <a href="login_form.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Logowanie</a>
+                    <?php if(isset($_SESSION['moderator_login'])): ?>
+                        <a href="control_panel.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Panel administratora (<?php echo $_SESSION['moderator_login'] ?>)</a>
+                    <?php else: ?>
+                        <a href="login_form.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Logowanie</a>
+                    <?php endif; ?>
                 </li>
             </ul>
         </div>
