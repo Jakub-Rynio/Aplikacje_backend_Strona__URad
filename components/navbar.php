@@ -15,7 +15,7 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-red-300 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                 <li class="m-auto">
-                    <a href="#recipes" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Przepisy</a>
+                    <a href="blog.php#recipes" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Przepisy</a>
                 </li>
                 <?php if(isset($_SESSION['moderator_login'])): ?>
                     <li class="m-auto">
