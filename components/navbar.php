@@ -17,9 +17,14 @@
                 <li class="m-auto">
                     <a href="#recipes" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Przepisy</a>
                 </li>
+                <?php if(isset($_SESSION['moderator_login'])): ?>
+                    <li class="m-auto">
+                        <a href="control_panel.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Panel administratora</a>
+                    </li>
+                <?php endif; ?>
                 <li class="m-auto">
                     <?php if(isset($_SESSION['moderator_login'])): ?>
-                        <a href="control_panel.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Panel administratora (<?php echo $_SESSION['moderator_login'] ?>)</a>
+                        <a href="api/logout.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Wyloguj (<?php echo $_SESSION['moderator_login'] ?>)</a>
                     <?php else: ?>
                         <a href="login_form.php" class="block py-2 px-3 text-gray-100 rounded-sm md:border-0 hover:text-white md:p-0 text-lg">Logowanie</a>
                     <?php endif; ?>
