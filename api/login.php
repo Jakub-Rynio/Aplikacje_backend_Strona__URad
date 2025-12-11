@@ -36,5 +36,5 @@ if ($user && password_verify($haslo, $user['password'])) {
     header('Location: ../control_panel.php');
 
 } else {
-    echo "Nieprawidłowy login lub hasło";
+    header('Location: ../invalid_password.php');
 }
