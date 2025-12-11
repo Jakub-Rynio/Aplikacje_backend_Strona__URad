@@ -63,6 +63,10 @@ function get_post_content($post) {
     return nl2br(htmlspecialchars($post['tresc']));
 }
 
+function get_post_opis($post) {
+    return nl2br(htmlspecialchars($post['opis']));
+}
+
 function get_post_image($post) {
     if (empty($post['obrazek'])) {
         return null;
@@ -70,6 +74,13 @@ function get_post_image($post) {
     return '../assets/img/blog/' . htmlspecialchars($post['obrazek']);
 }
 
+function get_post_id($post) {
+    return htmlspecialchars($post['id']);
+}
+
+function get_post_date($post){
+    return htmlspecialchars($post['data']);
+}
  
 // Pobranie wszystkich komentarzy
 function get_all_comments() {

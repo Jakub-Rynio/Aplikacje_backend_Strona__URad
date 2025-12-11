@@ -56,11 +56,11 @@
                             <div class="p-5 flex-1 flex flex-col">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-semibold uppercase tracking-wide text-red-500"><?= get_post_category($post); ?></span>
-                                    <span class="text-xs text-gray-400">data publikacji</span>
+                                    <span class="text-xs text-gray-400"><?php echo get_post_date($post) ?></span>
                                 </div>
-                                <h3 class="text-2xl font-semibold text-gray-900 mb-2"><a href="single.php?id=<?= (int)$post['id'] ?>"><?= get_post_title($post); ?></a></h3>
-                                <p class="text-gray-600 text-sm flex-1">opis</p>
-                                <a href="single.php?id=<?= (int)$post['id'] ?>" class="mt-4 inline-block text-sm font-semibold text-red-500 hover:text-red-700">Czytaj przepis →</a>
+                                <h3 class="text-2xl font-semibold text-gray-900 mb-2"><a href="single.php?id=<?= get_post_id($post)?>"><?= get_post_title($post); ?></a></h3>
+                                <p class="text-gray-600 text-sm flex-1"><?php echo get_post_opis($post) ?></p>
+                                <a href="single.php?id=<?= get_post_id($post) ?>" class="mt-4 inline-block text-sm font-semibold text-red-500 hover:text-red-700">Czytaj przepis →</a>
                             </div>
                         </article>
 

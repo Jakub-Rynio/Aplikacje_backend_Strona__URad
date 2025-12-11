@@ -19,6 +19,7 @@ $moderator = $_SESSION['moderator_login'];
 $tytul = trim($_POST['tytul']);
 $kategoria = trim($_POST['kategoria']);
 $content = trim($_POST['content']);
+$opis = trim($_POST['opis']);
 
 // Walidacja podstawowa
 if (strlen($tytul) < 3 || strlen($kategoria) < 3 || strlen($content) < 5) {
@@ -47,15 +48,16 @@ if (isset($_FILES['zdjecie']) && $_FILES['zdjecie']['error'] === UPLOAD_ERR_OK) 
 }
 
 $stmt = $pdo->prepare("
-    INSERT INTO przepisy (tytul, kategoria, obrazek, tresc, dodane_przez, active)
-    VALUES (:tytul, :kategoria, :obrazek, :tresc, :dodane_przez, 1)
+    INSERT INTO przepisy (tytul, kategoria, obrazek, tresc, dodane_przez, active, data, opis)
+    VALUES (:tytul, :kategoria, :obrazek, :tresc, :dodane_przez, 1, NOW(), :opis)
 ");
 $stmt->execute([
     ':tytul' => $tytul,
     ':kategoria' => $kategoria,
     ':obrazek' => $zdjecieFileName,
     ':tresc' => $content,
-    ':dodane_przez' => $moderator
+    ':dodane_przez' => $moderator,
+    ':opis' => $opis
 ]);
 
 echo "Post został dodany pomyślnie!";

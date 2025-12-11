@@ -55,6 +55,11 @@ if (!isset($_SESSION['csrf_token'])) {
         <textarea name="content" required minlength="5"></textarea>
     </label><br>
 
+    <label>
+        Opis:
+        <input type="text" name="opis">
+    </label><br>
+
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
     <button type="submit">Dodaj post</button>
