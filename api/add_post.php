@@ -60,4 +60,4 @@ $stmt->execute([
     ':opis' => $opis
 ]);
 
-echo "Post został dodany pomyślnie!";
+header("Location: ../success.php?id=2");

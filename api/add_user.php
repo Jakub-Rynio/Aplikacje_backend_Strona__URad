@@ -47,6 +47,8 @@ try {
         ':active'    => $active
     ]);
 
+    header("Location: ../success.php?id=1");
+
 } catch (PDOException $e) {
      if ($e->getCode() == 23000) {
         echo "UŻYTKOWNIK_ISTNIEJE";
