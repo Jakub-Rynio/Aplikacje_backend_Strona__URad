@@ -1,4 +1,4 @@
 <footer class="text-center text-sm my-1 text-gray-700">
-    © <script>document.write(new Date().getFullYear())</script> example.com
+    © <script>document.write(new Date().getFullYear())</script> example.com | <a class="text-red-500" target="_blank" href="https://github.com/Jakub-Rynio/Aplikacje_backend_Strona__URad">Zobacz na GitHub</a>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> <!-- Flowbite -->
