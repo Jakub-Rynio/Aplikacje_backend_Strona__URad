@@ -1,78 +1,6 @@
-<?php /*
-session_start();
-echo "Witaj, " . htmlspecialchars($_SESSION['moderator_login']);
-if (!isset($_SESSION['moderator_login'])) {
-    // użytkownik nie jest zalogowany
-    header("Location: ../login_form.php");
-    exit;
-}
-
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-?>
-
-<form method="post" action="/api/add_user.php">
-    <label>
-        Login:
-        <input type="text" name="login" required minlength="3">
-    </label><br>
-
-    <label>
-        Hasło:
-        <input type="password" name="haslo" required minlength="8">
-    </label><br>
-
-    <button type="submit">Dodaj moderatora</button>
-</form>
-
 <?php
+require 'api/queries.php';
 
-// Generowanie tokenu CSRF, jeśli go nie ma
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-?>
-
-<form method="post" action="/api/add_post.php" enctype="multipart/form-data">
-    <label>
-        Tytuł:
-        <input type="text" name="tytul" required minlength="3">
-    </label><br>
-
-    <label>
-        Kategoria:
-        <input type="text" name="kategoria" required minlength="3">
-    </label><br>
-
-    <label>
-        Zdjęcie:
-        <input type="file" name="zdjecie" accept="image/*" required>
-    </label><br>
-
-    <label>
-        Treść:
-        <textarea name="content" required minlength="5"></textarea>
-    </label><br>
-
-    <label>
-        Opis:
-        <input type="text" name="opis">
-    </label><br>
-
-    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-
-    <button type="submit">Dodaj post</button>
-</form>
-<?php */ ?>
-
-
-
-
-
-
-
-<?php
 session_start();
 
 if(!isset($_SESSION["moderator_login"])){
@@ -83,6 +11,8 @@ if(!isset($_SESSION["moderator_login"])){
 if(!isset($_SESSION["csrf_token"])){
     $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
 }
+
+$posts = get_posts(true);
 ?>
 
 <!DOCTYPE html>
@@ -111,6 +41,10 @@ if(!isset($_SESSION["csrf_token"])){
                             <ul class="flex gap-2" role="tablist" data-tabs-toggle="#tab-panels" data-tabs-active-classes="text-red-500 border-b-2 border-red-500" data-tabs-inactive-classes="text-gray-500 hover:text-gray-700">
                                 
                                 <li role="presentation">
+                                    <button class="inline-flex items-center gap-2 px-4 py-2 rounded-t-xl text-sm font-medium border-b-2 border-transparent no-underline focus:outline-none focus:ring-0" data-tabs-target="#panel-list" type="button" role="tab">Lista przepisów</button>
+                                </li>
+
+                                <li role="presentation">
                                     <button class="inline-flex items-center gap-2 px-4 py-2 rounded-t-xl text-sm font-medium border-b-2 border-transparent no-underline focus:outline-none focus:ring-0" data-tabs-target="#panel-post" type="button" role="tab">Dodaj przepis</button>
                                 </li>
 
@@ -124,9 +58,50 @@ if(!isset($_SESSION["csrf_token"])){
 
                     <div id="tab-panels" class="p-6">
 
+                        <!-- Panel z lista przepisów -->
+
+                        <section id="panel-list" role="tabpanel" class="hidden tab-panel">
+                            <h2 class="text-lg font-semibold mb-4">Lista przepisów</h2>
+
+                            <div class="space-y-4">
+
+                                <?php foreach($posts as $post): ?>
+                                    <div class="p-4 bg-white rounded-lg shadow border border-gray-200 flex items-center justify-between">
+                                        
+                                        <div>
+                                            <h3 class="text-md font-semibold text-gray-800">
+                                                <a href="single.php?id=<?php echo $post['id'] ?>"><?php echo htmlspecialchars($post['tytul']); ?></a>
+                                            </h3>
+                                            <p class="text-sm text-gray-500">ID: <?php echo (int)$post['id']; ?></p>
+                                        </div>
+
+                                        <form method="post" action="api/update_post_status.php" class="flex items-center gap-3">
+
+                                            <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
+                                            <input type="hidden" name="active" value="<?php echo $post['active'] ? 0 : 1; ?>">
+
+                                            <?php if($post['active']): ?>
+                                                <button type="submit" class="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition">Ukryj</button>
+                                            <?php else: ?>
+                                                <button type="submit" class="px-3 py-1 rounded-lg bg-gray-400 hover:bg-gray-500 text-white text-sm font-medium transition">Pokaż</button>
+                                            <?php endif; ?>
+
+                                        </form>
+
+                                    </div>
+
+                                <?php endforeach; ?>
+
+                                <?php if(empty($posts)): ?>
+                                    <div class="p-6 bg-white rounded-lg border text-center text-gray-500">Brak przepisów do wyświetlenia.</div>
+                                <?php endif; ?>
+
+                            </div>
+                        </section>
+
                         <!-- Panel dodawania przepisu -->
 
-                        <section id="panel-post" role="tabpanel" class="hidden tab-panel">
+                        <section id="panel-post" role="tabpanel" class="tab-panel">
                             
                             <h2 class="text-lg font-semibold mb-4">Dodaj przepis</h2>
 

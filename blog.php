@@ -69,6 +69,9 @@
                                     </div>
                                     <h3 class="text-2xl font-semibold text-gray-900 mb-2"><?= get_post_title($post); ?></h3>
                                     <p class="text-gray-600 text-sm flex-1"><?php echo get_post_opis($post) ?></p>
+                                    <?php if(!isset($post['active']) || !$post['active']): ?>
+                                        <p class="text-xs text-gray-500 text-end">Ten post jest ukryty, ale jako administrator widzisz go.</p>
+                                    <?php endif; ?>
                                 </div>
                             </article>
                         </a>
