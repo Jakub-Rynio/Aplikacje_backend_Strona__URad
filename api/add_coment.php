@@ -29,5 +29,5 @@ $stmt->execute([
     ':content' => $content
 ]);
 
-header("Location: ../blog.php");
+header("Location: ../single.php?id=".$post_id);
 exit;

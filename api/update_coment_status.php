@@ -21,5 +21,5 @@ $stmt->execute([
     ':id' => $coment_id
 ]);
 
-header('Location: ../blog.php');
+header("Location: ../single.php?id=".$_POST['id']);
 exit;

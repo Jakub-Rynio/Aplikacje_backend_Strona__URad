@@ -90,6 +90,71 @@ $admin = isset($_SESSION['moderator_login']);
                     <?= nl2br(get_post_content($post)); // do ustalenia czy chcemy tu parsować HTML ?>
                 </article>
 
+                <?php
+                    // Pobranie komentarzy zależnie od roli użytkownika
+                    if($admin) {
+                        $comments = get_comments_by_post($post['id']);
+                    } else {
+                        $comments = get_active_comments_by_post($post['id']);
+                    }
+                ?>
+
+                <section class="mt-16">
+
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Komentarze</h2>
+
+                    <?php if(empty($comments)): ?>
+                        <p class="text-gray-500 text-md mb-8">Brak komentarzy. Bądź pierwszy!</p>
+                    <?php endif; ?>
+
+                    <div class="space-y-6">
+
+                        <?php foreach($comments as $comment): ?>
+
+                            <div class="bg-red-50 rounded-xl p-5 my-3">
+
+                                <div class="flex items-center justify-between mb-2">
+
+                                    <span class="font-semibold text-gray-800 text-sm md:text-base">
+                                        <?= htmlspecialchars(get_comment_author($comment)); ?>
+                                    </span>
+
+                                    <span class="text-xs text-gray-400">
+                                        <?= htmlspecialchars(get_comment_date($comment)); ?>
+                                    </span>
+
+                                </div>
+
+                                <p class="text-gray-700 whitespace-pre-line mb-3">
+                                    <?= htmlspecialchars(get_comment_content($comment)); ?>
+                                </p>
+
+                                <?php if($admin && isset($comment['active']) && !$comment['active']): ?>
+                                    <p class="text-xs text-gray-500">Ten komentarz jest ukryty (administrator widzi).</p>
+                                <?php endif; ?>
+
+                                <?php if($admin): ?>
+                                    <div class="mt-3">
+                                        <?php active_switch_coment($post, $comment); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </section>
+
+                <section class="mt-16 mb-2 max-w-4xl mx-auto">
+
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-5">Dodaj komentarz</h3>
+
+                    <?php coment_form($post); ?>
+
+                </section>
+
             </div>
 
         </main>

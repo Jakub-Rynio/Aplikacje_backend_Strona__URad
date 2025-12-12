@@ -7,65 +7,51 @@ function coment_form($p) {
     }
     ?>
 
-    <form method="post" action="/api/add_coment.php">
-        <label>
-            Autor:
-            <input type="text" name="autor" required minlength="3">
-        </label><br>
+        <form method="post" action="api/add_coment.php" class="bg-red-50 p-6 rounded-xl space-y-4">
 
-        <label>
-            Treść:
-            <textarea name="content" required minlength="5"></textarea>
-        </label><br>
-        <input type="hidden" name="id" value="<?php echo $p['id']?>">
+            <input type="hidden" name="id" value="<?= (int)$p['id']; ?>">
 
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Autor</label>
+                <input type="text" name="autor" required minlength="2" maxlength="32" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500">
+            </div>
 
-        <button type="submit">Dodaj komentarz</button>
-    </form>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Treść komentarza</label>
+                <textarea name="content" required minlength="3" rows="4" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500"></textarea>
+            </div>
+
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+
+            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg shadow transition">Dodaj komentarz</button>
+
+        </form>
     <?php
 }
 
-function active_switch($p){
+function active_switch_coment($p, $c) {
     ?>
- <form method="post" action="api/update_post_status.php">
-                <input type="hidden" name="post_id" value="<?= $p['id'] ?>">
+        <form method="post" action="api/update_coment_status.php" class="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5">
 
-                <label>
-                    <input type="radio" name="active" value="1" <?= $p['active'] == 1 ? 'checked' : '' ?>>
-                    Aktywny
+            <input type="hidden" name="id" value="<?= (int)$p['id']; ?>">
+    
+            <input type="hidden" name="coment_id" value="<?= $c['id'] ?>">
+    
+            <div class="flex items-center space-x-4">
+    
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="radio" name="active" value="1"<?= $c['active'] == 1 ? 'checked' : '' ?> class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-300">Aktywny
                 </label>
-
-                <label>
-                    <input type="radio" name="active" value="0" <?= $p['active'] == 0 ? 'checked' : '' ?>>
-                    Nieaktywny
+    
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="radio" name="active" value="0" <?= $c['active'] == 0 ? 'checked' : '' ?> class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-300">Nieaktywny
                 </label>
+    
+            </div>
+    
+            <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg shadow transition">Aktualizuj</button>
+    
+        </form>
 
-                <button type="submit">Aktualizuj</button>
-            </form>
-        <hr>
-    </div>
-    <?php
-}
-
-function active_switch_coment($c){
-    ?>
- <form method="post" action="api/update_coment_status.php">
-                <input type="hidden" name="coment_id" value="<?= $c['id'] ?>">
-
-                <label>
-                    <input type="radio" name="active" value="1" <?= $c['active'] == 1 ? 'checked' : '' ?>>
-                    Aktywny
-                </label>
-
-                <label>
-                    <input type="radio" name="active" value="0" <?= $c['active'] == 0 ? 'checked' : '' ?>>
-                    Nieaktywny
-                </label>
-
-                <button type="submit">Aktualizuj</button>
-            </form>
-        <hr>
-    </div>
-    <?php
+<?php
 }
