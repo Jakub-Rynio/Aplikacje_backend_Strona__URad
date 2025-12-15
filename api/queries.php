@@ -3,6 +3,20 @@
 // posts
 require 'db_connection.php';
 
+function isSqlInjectionAttempt(string $input): bool {
+    return (bool) preg_match(
+        '/(\bor\b|\band\b)\s+1=1'
+        . '|union\s+select'
+        . '|--'
+        . '|#'
+        . '|;'
+        . '|\bdrop\b|\bdelete\b|\bupdate\b|\binsert\b'
+        . '|\'\s+or\s+\''
+        . '|"?\s+or\s+"?/i',
+        $input
+);
+}
+
 function get_post_by_id($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM przepisy WHERE id = :id");
@@ -15,6 +29,13 @@ function get_posts($admin = false, $zapytanie = "", $kategoria = "", $tytul = ""
 
     $sql = "SELECT * FROM przepisy ";
     $params = [];
+
+    if(isSqlInjectionAttempt($zapytanie) || isSqlInjectionAttempt($kategoria) || isSqlInjectionAttempt($tytul) || isSqlInjectionAttempt($autor)){
+        header("Location: https://www.youtube.com/watch?v=20zdTZjvhUA");
+        exit;
+
+    };
+
 
     if ($admin) {
         $sql .= "WHERE (active = 1 OR active = 0)";
