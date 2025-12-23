@@ -1,8 +1,8 @@
 <?php
+$pass = getenv('DB_PASSWD');
 $host = 'localhost';       // lub nazwa serwera
 $db   = 'przepisy';
 $user = 'przepisy_db';
-$pass = '!QAZ2wsx';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
