@@ -21,5 +21,5 @@ $stmt->execute([
     ':id' => $post_id
 ]);
 
-header('Location: ../blog.php');
+header('Location: ../control_panel.php');
 exit;

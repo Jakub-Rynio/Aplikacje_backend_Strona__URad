@@ -4,6 +4,9 @@ require 'db_connection.php'; // podłączamy połączenie
 
 session_start();
 
+$PEPPER = getenv('PASSWORD_PEPPER')
+    or die('Nie przyprawione :)');
+
 if (!isset($_SESSION['moderator_login'])) {
     // użytkownik nie jest zalogowany
     header("Location: ../login_form.php");
@@ -30,9 +33,8 @@ if (!preg_match('/^[a-zA-Z0-9_]+$/', $moderator)) {
 }
 
 $password = $_POST['haslo'];
-$active = True;
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
-// hash
+$pepper_passwd = hash_hmac('sha256', $password,$PEPPER);
+$password_hash = password_hash($pepper_passwd, PASSWORD_DEFAULT);
 
 
 try {
@@ -44,7 +46,7 @@ try {
     $stmt->execute([
         ':moderator' => $moderator,
         ':password'  => $password_hash,
-        ':active'    => $active
+        ':active'    => 1
     ]);
 
     header("Location: ../success.php?id=1");

@@ -13,12 +13,12 @@ function coment_form($p) {
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Autor</label>
-                <input type="text" name="autor" required minlength="2" maxlength="32" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500">
+                <input type="text" name="autor" required minlength="5" maxlength="32" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Treść komentarza</label>
-                <textarea name="content" required minlength="3" rows="4" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500"></textarea>
+                <textarea name="content" required minlength="5" rows="4" class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-500"></textarea>
             </div>
 
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
